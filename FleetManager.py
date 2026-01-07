@@ -30,5 +30,34 @@ class FleetManager:
             print(f"Hub : {hub}")
             for v in vehicles:
                 print(v.model)
+                
+    def search_by_hub(self, hub_name):
+        if hub_name in self.hubs:
+            print(f"Vehicles in hub '{hub_name}':")
+            for v in self.hubs[hub_name]:
+                print(f"{v.vehicle_id} - {v.model} ({v.battery_percentage}%)")
+        else:
+            print("Hub not found")
+            
+    def search_by_battery(self):
+        print("Vehicles with battery > 80%:")
+        
+        all_vehicles = []
+        
+        for vehicles in self.hubs.values():
+            all_vehicles.extend(vehicles)
+            
+        high_battery_vehicles = filter(lambda v : v.battery_percentage > 80, all_vehicles)
+        
+        found = False
+        
+        for v in high_battery_vehicles:
+            print(f"{v.vehicle_id} - {v.model} ({v.battery_percentage}%)")
+        found = True
+
+        if not found:
+            print("No vehicles found with battery > 80%")
+        
+
             
         
