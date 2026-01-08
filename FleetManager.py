@@ -1,5 +1,7 @@
 from ElectricCar import ElectricCar
 from ElectricScooter import ElectricScooter
+from Vehicle import Vehicle
+from EcoRideMain import EcoRideMain
 
 class FleetManager:
     def __init__(self):
@@ -93,6 +95,28 @@ class FleetManager:
         else:
             print("No scooters available")
 
+    def fleet_analytics(self):
+        summary = {
+            "available" : 0,
+            "on trip" : 0,
+            "under maintenance" : 0
+        }
+        
+        for vehicles in self.hubs.values():
+            for v in vehicles:
+                status = v.maintenance_status.lower()
+                
+                if status == "available":
+                    summary["available"] += 1
+                elif status == "on trip":
+                    summary["on trip"] += 1
+                elif status == "under maintenance":
+                    summary["under maintenance"] += 1
+                    
+        print("\n--- Fleet Status Summary ---")
+        print(f"Available           : {summary['available']}")
+        print(f"On Trip             : {summary['on trip']}")
+        print(f"Under Maintenance   : {summary['under maintenance']}")
                     
             
         

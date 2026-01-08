@@ -10,7 +10,8 @@ while True:
     print("1. Add Hubs and Vehicles")
     print("2. Search Vehicles")
     print("3. View Vehicles by Type")
-    print("4. Exit")
+    print("4. Fleet Analytics")
+    print("5    . Exit")
 
     main_choice = int(input("Enter your choice: "))
     
@@ -33,7 +34,12 @@ while True:
             vehicle_id = int(input("Enter Vehicle ID: "))
             model = input("Enter Vehicle Model: ")
             battery = int(input("Enter Battery Percentage: "))
-            status = input("Enter Maintenance Status: ")
+            maintenance_status = input("Enter Maintenance Status: (available / on trip / under maintenance): ").lower()
+            
+            while maintenance_status not in ["available", "on trip", "under maintenance"]:
+                print("Invalid status. Please enter a valid status.")
+                maintenance_status = input("Enter Maintenance Status: ").lower()
+            
             price = float(input("Enter Rental Price: "))
             hub_name = input("Enter Hub Name to assign vehicle: ")
 
@@ -43,7 +49,7 @@ while True:
                     vehicle_id,
                     model,
                     battery,
-                    status,
+                    maintenance_status,
                     price,
                     seating_capacity
                 )
@@ -54,7 +60,7 @@ while True:
                     vehicle_id,
                     model,
                     battery,
-                    status,
+                    maintenance_status,
                     price,
                     max_speed
                 )
@@ -97,8 +103,11 @@ while True:
     
     elif main_choice == 3:
         fleet.show_vehicles_by_type()
-                    
+        
     elif main_choice == 4:
+        fleet.fleet_analytics()
+                    
+    elif main_choice == 5:
         print("Exiting program")
         break
     

@@ -10,6 +10,7 @@ class Vehicle(ABC):
 
         self.battery_percentage = battery_percentage
         self.rental_price = rental_price
+        self.maintenance_status = maintenance_status
 
     @property
     def battery_percentage(self):
@@ -29,7 +30,13 @@ class Vehicle(ABC):
 
     @maintenance_status.setter
     def maintenance_status(self, value):
-        self.__maintenance_status = value
+        allowed_status = ["available", "on trip", "under maintenance"]
+        
+        if value.lower() in allowed_status:            
+            self.__maintenance_status = value.lower()
+        else:
+            print("Invalid status! Setting status to 'available'")
+            self.__maintenance_status = "available"
 
     @property
     def rental_price(self):

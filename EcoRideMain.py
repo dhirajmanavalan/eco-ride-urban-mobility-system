@@ -16,7 +16,12 @@ class EcoRideMain:
         vehicle_id = int(input("Enter Vehicle ID: "))
         model = input("Enter Vehicle Model: ")
         battery_percentage = int(input("Enter Battery Percentage: "))
-        maintenance_status = input("Enter Maintenance Status: ")
+        maintenance_status = input("Enter Maintenance Status: (available / on trip / under maintenance): ").lower()
+        
+        while maintenance_status not in ["available", "on trip", "under maintenance"]:
+            print("Invalid status. Please enter a valid status.")
+            maintenance_status = input("Enter Maintenance Status: ").lower()
+            
         rental_price = float(input("Enter Rental Price: "))
         
         if choice == 1:
