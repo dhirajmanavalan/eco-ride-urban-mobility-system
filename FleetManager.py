@@ -1,3 +1,6 @@
+from ElectricCar import ElectricCar
+from ElectricScooter import ElectricScooter
+
 class FleetManager:
     def __init__(self):
         self.hubs = {}
@@ -58,6 +61,38 @@ class FleetManager:
         if not found:
             print("No vehicles found with battery > 80%")
         
+    def show_vehicles_by_type(self):
+        categorized = {
+            "cars" : [],
+            "bikes" : []
+        }
+        
+        for vehicles in self.hubs.values():
+            for v in vehicles:
+                if isinstance(v, ElectricCar):
+                    categorized["cars"].append(v)
+                elif isinstance(v, ElectricScooter):
+                    categorized["bikes"].append(v)
+        
+        
+        print("\n--- Vehicles Grouped by Type ---")
 
+        print("\nCars:")
+        if categorized["cars"]:
+            for v in categorized["cars"]:
+                print(f"{v.vehicle_id} - {v.model}")
+                
+        else:
+            print("No cars available")
+            
+
+        print("\nScooters:")
+        if categorized["bikes"]:
+            for v in categorized["bikes"]:
+                print(f"{v.vehicle_id} - {v.model}")
+        else:
+            print("No scooters available")
+
+                    
             
         

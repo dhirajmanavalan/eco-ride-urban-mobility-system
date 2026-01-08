@@ -9,7 +9,8 @@ while True:
     print("\n--- MAIN MENU ---")
     print("1. Add Hubs and Vehicles")
     print("2. Search Vehicles")
-    print("3. Exit")
+    print("3. View Vehicles by Type")
+    print("4. Exit")
 
     main_choice = int(input("Enter your choice: "))
     
@@ -93,8 +94,11 @@ while True:
 
                 else:
                     print("Invalid choice")
-                    
+    
     elif main_choice == 3:
+        fleet.show_vehicles_by_type()
+                    
+    elif main_choice == 4:
         print("Exiting program")
         break
     
