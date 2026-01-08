@@ -59,3 +59,10 @@ class Vehicle(ABC):
             return self.vehicle_id == other.vehicle_id
         return False
 
+    def __str__(self):
+        return (
+            f"ID: {self.vehicle_id} | "
+            f"Model: {self.model} | "
+            f"Battery: {self.battery_percentage}% | "
+            f"Status: {self.maintenance_status}"
+        )

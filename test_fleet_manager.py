@@ -11,7 +11,8 @@ while True:
     print("2. Search Vehicles")
     print("3. View Vehicles by Type")
     print("4. Fleet Analytics")
-    print("5    . Exit")
+    print("5. Sort Vehicles by Model")
+    print("6. Exit")
 
     main_choice = int(input("Enter your choice: "))
     
@@ -106,8 +107,13 @@ while True:
         
     elif main_choice == 4:
         fleet.fleet_analytics()
-                    
+    
     elif main_choice == 5:
+        hub_name = input("Enter hub name to sort vehicles: ")
+        fleet.sort_vehicles_by_model(hub_name)
+
+                    
+    elif main_choice == 6:
         print("Exiting program")
         break
     

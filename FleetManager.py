@@ -119,4 +119,12 @@ class FleetManager:
         print(f"Under Maintenance   : {summary['under maintenance']}")
                     
             
+    def sort_vehicles_by_model(self, hub_name):
+        if hub_name not in self.hubs:
+            print("Hub not found")
+            return
+        self.hubs[hub_name].sort(key = lambda v : v.model)
         
+        print(f"\n--- Vehicles in '{hub_name}' sorted by Model ---")
+        for v in self.hubs[hub_name]:
+            print(v)
