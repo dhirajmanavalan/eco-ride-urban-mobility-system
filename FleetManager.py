@@ -128,3 +128,26 @@ class FleetManager:
         print(f"\n--- Vehicles in '{hub_name}' sorted by Model ---")
         for v in self.hubs[hub_name]:
             print(v)
+            
+    def sort_by_vehicle_battery(self, hub_name):
+        if hub_name not in self.hubs:
+            print("Hub not found")
+            return
+        sorted_vehicle = sorted(self.hubs[hub_name], key=lambda v : v.battery_percentage, reverse=True)
+        
+        print(f"Vehicles in '{hub_name}' sorted by Battery (High → Low)")
+        
+        for v in sorted_vehicle:
+            print(v)
+            
+    def sort_by_fare(self,hub_name):
+        if hub_name not in self.hubs:
+            print("Hub not found")
+            return
+        fare = sorted(self.hubs[hub_name],key=lambda v : v.rental_price, reverse=True)
+        
+        print(f" Vehicles in '{hub_name}' sorted by Fare (High → Low)")
+        
+        for v in fare:
+            print(v)
+        
