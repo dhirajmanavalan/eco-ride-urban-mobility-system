@@ -1,0 +1,44 @@
+{
+    "Salem": [
+        {
+            "vehicle_id": 101,
+            "model": "Suzuki",
+            "battery": 98,
+            "status": "available",
+            "price": 300.0,
+            "type": "CAR",
+            "seating_capacity": 4
+        }
+    ],
+    "Tirupathur": [
+        {
+            "vehicle_id": 102,
+            "model": "Tesla",
+            "battery": 89,
+            "status": "on trip",
+            "price": 4000.0,
+            "type": "CAR",
+            "seating_capacity": 5
+        },
+        {
+            "vehicle_id": 104,
+            "model": "Hyndai",
+            "battery": 80,
+            "status": "on trip",
+            "price": 250.0,
+            "type": "SCOOTER",
+            "max_speed": 60
+        }
+    ],
+    "Chennai": [
+        {
+            "vehicle_id": 103,
+            "model": "Mahindra",
+            "battery": 40,
+            "status": "under maintenance",
+            "price": 300.0,
+            "type": "SCOOTER",
+            "max_speed": 70
+        }
+    ]
+}

@@ -5,6 +5,7 @@ from EcoRideMain import EcoRideMain
 
 import csv
 import os
+import json
 
 class FleetManager:
     def __init__(self):
@@ -35,7 +36,7 @@ class FleetManager:
         
     def show_hub(self):
         for hub,vehicles in self.hubs.items():
-            print(f"Hub : {hub}")
+            print(f"Hub : {hub.title()}")
             for v in vehicles:
                 print(v.model)
                 
@@ -204,5 +205,77 @@ class FleetManager:
                 self.hubs[hub].append(vehicle)
 
         print("Fleet data loaded from CSV successfully")
-            
+        
     
+    def save_to_json(self, file_name = "fleet_data.json"):
+        
+        data = {}
+        
+        for hub, vehicles in self.hubs.items():
+            data[hub]=[]
+            
+            for v in vehicles:
+                
+                vehicle_dict = {
+                    "vehicle_id":v.vehicle_id,
+                    "model":v.model,
+                    "battery":v.battery_percentage,
+                    "status":v.maintenance_status,
+                    "price":v.rental_price
+                }
+                
+                if isinstance(v, ElectricCar):
+                    vehicle_dict["type"] = "CAR"
+                    vehicle_dict["seating_capacity"] = v.seating_capacity
+                    
+                elif isinstance(v,ElectricScooter):
+                    vehicle_dict["type"] = "SCOOTER"
+                    vehicle_dict["max_speed"] = v.max_speed_limit
+                    
+                data[hub].append(vehicle_dict)
+                
+        
+        with open(file_name,"w") as f:
+            json.dump(data, f , indent=4)
+            
+        print("Data saved successfully to Json")
+    
+    def load_to_json(self, file_name = "fleet_data.json"):
+        
+        if not os.path.exists(file_name):
+            print("No json file found")
+            return
+        
+        with open(file_name, "r") as f:
+            data = json.load(f)
+            
+        self.hubs.clear()
+        
+        for hub,vehicles in data.items():
+            self.hubs[hub] = []
+            
+            for v in vehicles:
+                if v["type"] == "CAR":
+                    vehicle = ElectricCar(
+                        v["vehicle_id"],
+                        v["model"],
+                        v["battery"],
+                        v["status"],
+                        v["price"],
+                        v["seating_capacity"]
+                    )
+                else:
+                    vehicle = ElectricScooter(
+                        v["vehicle_id"],
+                        v["model"],
+                        v["battery"],
+                        v["status"],
+                        v["price"],
+                        v["max_speed"]
+                    )
+                
+                self.hubs[hub].append(vehicle)
+                
+                
+                
+        print("Datas are loaded successfully from json")

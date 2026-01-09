@@ -27,7 +27,7 @@ while True:
         hub_count = int(input("How many hubs do you want to add? "))
 
         for _ in range(hub_count):
-            hub_name = input("Enter hub name: ").strip().lower()
+            hub_name = input("Enter hub name: ")
             fleet.add_hub(hub_name)
             
         vehicle_count = int(input("\nHow many vehicles do you want to add? "))
@@ -40,28 +40,15 @@ while True:
 
             vehicle_id = int(input("Enter Vehicle ID: "))
             model = input("Enter Vehicle Model: ")
-            
-            while True:
-                battery = int(input("Enter Battery Percentage: "))
-                if 0 <= battery <=100: 
-                    break
-                else:
-                    print("Invalid battery percentage. Please enter a value between 0 and 100.")
-                    
+            battery = int(input("Enter Battery Percentage: "))
             maintenance_status = input("Enter Maintenance Status: (available / on trip / under maintenance): ").lower()
             
             while maintenance_status not in ["available", "on trip", "under maintenance"]:
                 print("Invalid status. Please enter a valid status.")
                 maintenance_status = input("Enter Maintenance Status: ").lower()
             
-            while True:
-                price = float(input("Enter Rental Price: "))
-                if price > 0:
-                    break
-                else:
-                    print("Invalid rental price. Please enter a value greater than 0.")
-            
-            hub_name = input("Enter Hub Name to assign vehicle: ").strip().lower()
+            price = float(input("Enter Rental Price: "))
+            hub_name = input("Enter Hub Name to assign vehicle: ")
 
             if choice == 1:
                 seating_capacity = int(input("Enter Seating Capacity: "))
@@ -109,7 +96,7 @@ while True:
 
                 if choice == 1:
                     hub_name = input("Enter hub name to search: ")
-                    fleet.search_by_hub(hub_name).strip().lower()
+                    fleet.search_by_hub(hub_name)
 
                 elif choice == 2:
                     fleet.search_by_battery()
@@ -128,11 +115,11 @@ while True:
         fleet.fleet_analytics()
     
     elif main_choice == 5:
-        hub_name = input("Enter hub name to sort vehicles: ").strip().lower()
+        hub_name = input("Enter hub name to sort vehicles: ")
         fleet.sort_vehicles_by_model(hub_name)
         
     elif main_choice == 6:
-        hub_name = input("Enter hub name: ").strip().lower()
+        hub_name = input("Enter hub name: ")
         fleet.sort_by_battery(hub_name)
 
     elif main_choice == 7:
