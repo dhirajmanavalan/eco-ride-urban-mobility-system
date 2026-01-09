@@ -3,6 +3,9 @@ from ElectricScooter import ElectricScooter
 from Vehicle import Vehicle
 from EcoRideMain import EcoRideMain
 
+import csv
+import os
+
 class FleetManager:
     def __init__(self):
         self.hubs = {}
@@ -151,3 +154,55 @@ class FleetManager:
         for v in fare:
             print(v)
         
+    
+    def save_to_csv(self, filename = "fleet_data.csv"):
+        with open("fleet_data.csv","w", newline="") as file:
+            writer = csv.writer(file)
+            
+            writer.writerow(["vehicle_id", "model", "battery", "status", "rental_price", "vehicle_type", "seating_capacity/max_speed", "hub"])
+            
+            for hub, vehicles in self.hubs.items():
+                for v in vehicles:
+                    if isinstance(v, ElectricCar):
+                        writer.writerow([v.vehicle_id , v.model , v.battery_percentage , v.maintenance_status , v.rental_price , "CAR" , v.seating_capacity , hub])
+                        
+                    elif isinstance(v, ElectricScooter):
+                        writer.writerow([v.vehicle_id , v.model , v.battery_percentage , v.maintenance_status , v.rental_price , "SCOOTER" , v.max_speed_limit , hub ])
+                        
+        
+        print("Fleet data save to CSV file successfully")
+        
+    
+    def load_from_csv(self, filename = "fleet_data.csv"):
+        if not os.path.exists(filename):
+            return
+        
+        with open(filename, "r") as file:
+            reader = csv.DictReader(file)
+            
+            for row in reader:
+                hub = row["hub"]
+                
+                if hub not in self.hubs:
+                    self.hubs[hub] = []
+                    
+                vehicle_id = int(row["vehicle_id"])
+                model = row["model"]
+                battery = int(row["battery"])
+                status = row["status"]
+                price = float(row["rental_price"])
+
+                if row["vehicle_type"].upper()=="CAR":
+                    seating = int(row["seating_capacity/max_speed"])
+                    
+                    vehicle = ElectricCar(vehicle_id , model , battery, status, price, seating)
+                
+                else:
+                    speed = int(row["seating_capacity/max_speed"])
+                    vehicle = ElectricScooter(vehicle_id, model, battery, status, price, speed)
+                    
+                self.hubs[hub].append(vehicle)
+
+        print("Fleet data loaded from CSV successfully")
+            
+    

@@ -11,7 +11,7 @@ class EcoRideMain:
         print("1. Electric Car")
         print("2. Electric Scooter")
 
-        choice = int(input("Choose vehicle type (1 or 2): "))
+        choice = int(input("Choose vehicle type (1 or 2) to create a vehicle: "))
 
         vehicle_id = int(input("Enter Vehicle ID: "))
         model = input("Enter Vehicle Model: ")
@@ -38,14 +38,16 @@ class EcoRideMain:
             cost = vehicle.calculate_trip_cost(distance)
         
         elif choice == 2:
+            max_speed_limit = int(input("Enter maximum speed limit: "))
             vehicle = ElectricScooter(
                 vehicle_id,
                 model,
                 battery_percentage,
                 maintenance_status,
                 rental_price,
-                max_speed_limit=45
+                max_speed_limit
             )
+            
             minutes = int(input("Enter ride time in minutes: "))
             cost = vehicle.calculate_trip_cost(minutes)
 

@@ -1,0 +1,3 @@
+vehicle_id,model,battery,status,rental_price,vehicle_type,seating_capacity/max_speed,hub
+101,Tesla,89,available,300.0,CAR,3,salem
+102,suzuki,80,under maintenance,400.0,SCOOTER,40,tiru

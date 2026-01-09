@@ -14,7 +14,9 @@ while True:
     print("5. Sort Vehicles by Model")
     print("6. Sort Vehicles by Battery")
     print("7. Sort Vehicles by Fare")
-    print("8. Exit")
+    print("8. Save Fleet Data to CSV")
+    print("9. Load Fleet Data from CSV")
+    print("10. Exit")
 
     main_choice = int(input("Enter your choice: "))
     
@@ -123,9 +125,20 @@ while True:
         fleet.sort_by_fare(hub_name)
                     
     elif main_choice == 8:
+        fleet.save_to_csv()
+
+    elif main_choice == 9:
+        fleet.hubs.clear()  
+        fleet.load_from_csv()
+        print("Loaded Fleet Data")
+        fleet.show_hub()
+
+    elif main_choice == 10:
         print("Exiting program")
         break
-    
+        
     else:
         print("Invalid option")
+            
+    
 
