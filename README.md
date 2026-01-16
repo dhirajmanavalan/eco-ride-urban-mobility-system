@@ -3,9 +3,9 @@
 ## 📌 Project Overview
 
 **Eco-Ride** is a **console-based Urban Mobility & Fleet Management System** developed using **Python Object-Oriented Programming (OOP)** principles.
-The system manages **Electric Cars and Electric Scooters** across **multiple fleet hubs**, supports **searching, sorting, analytics**, and ensures **data persistence using CSV files**.
+The system manages **Electric Cars and Electric Scooters** across **multiple fleet hubs**, supports **searching, sorting, analytics**, ensures **data persistence using CSV & JSON**, and includes **automated testing with Pytest**.
 
-This project demonstrates **real-world application design**, **clean architecture**, and **incremental feature development using Git branching**.
+This project demonstrates **real-world application design**, **clean architecture**, **incremental feature development**, and **testing best practices** using **Git branch-based workflows**.
 
 ---
 
@@ -15,8 +15,10 @@ This project demonstrates **real-world application design**, **clean architectur
 * Manage fleet data using **collections and dictionaries**
 * Ensure **data integrity** and prevent duplicates
 * Implement **search, sorting, and analytics** features
-* Persist data using **CSV File I/O**
+* Persist data using **CSV & JSON File I/O**
 * Build a **menu-driven console application**
+* Add **automated unit testing using Pytest**
+* Perform **data analytics & transformation scripts**
 
 ---
 
@@ -25,12 +27,22 @@ This project demonstrates **real-world application design**, **clean architectur
 ```text
 eco-ride-urban-mobility-system/
 │
-├── Vehicle.py              # Abstract base class for all vehicles
-├── ElectricCar.py          # Electric Car implementation
-├── ElectricScooter.py      # Electric Scooter implementation
-├── FleetManager.py         # Fleet & hub management logic
-├── EcoRideMain.py          # Menu-driven user interaction
-├── fleet_data.csv          # CSV persistence file
+├── Vehicle.py                  # Abstract base class
+├── ElectricCar.py              # Electric Car logic
+├── ElectricScooter.py          # Electric Scooter logic
+├── FleetManager.py             # Fleet & hub management
+├── EcoRideMain.py              # Menu-driven application
+│
+├── fleet_data.csv              # CSV persistence
+├── fleet_data.json             # JSON persistence
+│
+├── battery_filter_script.py    # Battery analytics script (UC15)
+│
+├── tests/
+│   ├── test_vehicle.py
+│   ├── test_fleet_manager.py
+│   └── test_operations.py      # Pytest cases (UC16)
+│
 ├── requirements.txt
 └── README.md
 ```
@@ -39,21 +51,23 @@ eco-ride-urban-mobility-system/
 
 ## 🧠 Core Design Philosophy
 
-The project is designed with **clear separation of concerns**:
+The project follows **separation of concerns**:
 
-* **Vehicle Hierarchy** → Represents vehicles and business rules
-* **FleetManager** → Handles hubs, fleet operations, analytics, search & sorting
-* **Main/Test File** → Handles user interaction and program flow
+* **Vehicle Hierarchy** → Vehicle rules & validation
+* **FleetManager** → Business logic & operations
+* **Main Program** → User interaction
+* **Scripts** → Analytics & transformation
+* **Tests** → Automated verification
 
-This structure improves **readability, scalability, and maintainability**.
+This improves **scalability, maintainability, and testability**.
 
 ---
 
 ## 🚘 Vehicle Hierarchy
 
-### 🔹 Vehicle (Base Class)
+### 🔹 Vehicle (Abstract Base Class)
 
-* Abstract base class using `abc`
+* Uses `abc.ABC`
 * Common attributes:
 
   * `vehicle_id`
@@ -63,10 +77,10 @@ This structure improves **readability, scalability, and maintainability**.
   * `rental_price`
 * Implements:
 
-  * **Encapsulation** using private variables and setters
-  * **Validation** for battery, price, and status
-  * `__eq__` to prevent duplicate vehicle IDs
-  * `__str__` for clean console output
+  * **Encapsulation** with private variables
+  * **Validation** using setters
+  * `__eq__` to prevent duplicate IDs
+  * `__str__` for clean output
 * Declares abstract method:
 
   ```python
@@ -78,15 +92,9 @@ This structure improves **readability, scalability, and maintainability**.
 ### 🚗 ElectricCar
 
 * Inherits from `Vehicle`
-* Adds:
-
-  * `seating_capacity`
-* Overrides:
-
-  ```python
-  calculate_trip_cost(distance)
-  ```
-* Fare Logic:
+* Adds `seating_capacity`
+* Overrides `calculate_trip_cost(distance)`
+* Fare:
 
   ```
   Base fare + cost per kilometer
@@ -97,15 +105,9 @@ This structure improves **readability, scalability, and maintainability**.
 ### 🛴 ElectricScooter
 
 * Inherits from `Vehicle`
-* Adds:
-
-  * `max_speed_limit`
-* Overrides:
-
-  ```python
-  calculate_trip_cost(time)
-  ```
-* Fare Logic:
+* Adds `max_speed_limit`
+* Overrides `calculate_trip_cost(time)`
+* Fare:
 
   ```
   Base fare + cost per minute
@@ -115,33 +117,32 @@ This structure improves **readability, scalability, and maintainability**.
 
 ## 🗂️ Fleet Management (FleetManager)
 
-### 🔹 Multiple Fleet Hubs (UC6)
+### 🔹 UC6 – Multiple Fleet Hubs
 
-* Uses a dictionary:
+* Dictionary-based hub management:
 
   ```python
-  { hub_name : [vehicle_objects] }
+  { hub_name: [vehicle_objects] }
   ```
-* Supports multiple locations like *Downtown*, *Airport*, etc.
 
 ---
 
-### 🔹 Data Integrity (UC7)
+### 🔹 UC7 – Data Integrity
 
-* Prevents duplicate vehicle IDs within the same hub
+* Prevents duplicate vehicle IDs within a hub
 * Uses:
 
   * `__eq__`
-  * List comprehension for ID checks
+  * List comprehension
 
 ---
 
-### 🔹 Search Functionality (UC8)
+### 🔹 UC8 – Search Functionality
 
-* Search vehicles:
+* Search by:
 
-  * By hub
-  * By battery percentage (> 80%)
+  * Hub
+  * Battery percentage (>80%)
 * Uses:
 
   * `filter()`
@@ -149,22 +150,19 @@ This structure improves **readability, scalability, and maintainability**.
 
 ---
 
-### 🔹 Categorized View (UC9)
+### 🔹 UC9 – Categorized View
 
-* Groups vehicles by type:
-
-  * Cars
-  * Scooters
+* Groups vehicles by type (Car / Scooter)
 * Uses:
 
   * `isinstance()`
-  * Dictionary-based categorization
+  * Dictionary mapping
 
 ---
 
-### 🔹 Fleet Analytics (UC10)
+### 🔹 UC10 – Fleet Analytics
 
-* Displays count of vehicles by status:
+* Counts vehicles by status:
 
   * Available
   * On Trip
@@ -173,23 +171,22 @@ This structure improves **readability, scalability, and maintainability**.
 
 ---
 
-### 🔹 Alphabetical Sorting (UC11)
+### 🔹 UC11 – Alphabetical Sorting
 
-* Sorts vehicles in a hub by **model name**
+* Sorts vehicles by model name
 * Uses:
 
   ```python
   sort(key=lambda v: v.model)
   ```
-* Clean output using `__str__`
 
 ---
 
-### 🔹 Advanced Sorting (UC12)
+### 🔹 UC12 – Advanced Sorting
 
-* Dynamic sorting by:
+* Sorts by:
 
-  * Battery level (descending)
+  * Battery (descending)
   * Fare price (descending)
 * Uses:
 
@@ -199,27 +196,75 @@ This structure improves **readability, scalability, and maintainability**.
 
 ---
 
-## 💾 CSV Persistence (UC13)
+## 💾 UC13 – CSV Persistence
 
-### 🔹 Save Fleet Data
+### Save to CSV
 
-* Uses Python’s built-in `csv` module
-* Stores:
+* Stores complete fleet data
+* One row per vehicle
 
-  * Vehicle details
-  * Vehicle type
-  * Hub name
-* One row = one vehicle
+### Load from CSV
 
-### 🔹 Load Fleet Data
-
-* Reads CSV using `csv.DictReader`
 * Recreates:
 
-  * Hubs
   * Vehicle objects
-* Supports **manual load via menu**
-* Prevents duplication by clearing memory before load
+  * Hub structure
+* Clears in-memory data before loading
+
+---
+
+## 🔄 UC14 – JSON Persistence
+
+* Saves full fleet structure into JSON
+* Supports nested hub → vehicle mapping
+* Enables object serialization & deserialization
+* Useful for APIs and future integrations
+
+---
+
+## 📊 UC15 – Battery Range Analytics Script
+
+* Separate analytics script
+* Reads `fleet_data.csv`
+* Categorizes vehicles into battery ranges:
+
+  * 0–60
+  * 60–70
+  * 70–100
+* Exports structured JSON:
+
+  ```json
+  {
+    "battery_0_60": [...],
+    "battery_60_70": [...],
+    "battery_70_100": [...]
+  }
+  ```
+* Demonstrates **data transformation & analytics**
+
+---
+
+## 🧪 UC16 – Automated Testing with Pytest
+
+* Unit tests for:
+
+  * Battery validation
+  * Rental price validation
+  * Fare calculation (polymorphism)
+  * Hub creation
+  * Duplicate vehicle prevention
+* Uses:
+
+  * `pytest`
+  * `@pytest.mark`
+* Business logic tested separately from UI
+
+Example:
+
+```bash
+pytest -v
+pytest -m tripcost
+```
 
 ---
 
@@ -227,45 +272,32 @@ This structure improves **readability, scalability, and maintainability**.
 
 Users can:
 
-1. Add hubs and vehicles
+1. Add hubs & vehicles
 2. Search vehicles
-3. View vehicles by type
-4. Run fleet analytics
+3. View by type
+4. Fleet analytics
 5. Sort vehicles
-6. Save fleet data to CSV
-7. Load fleet data from CSV
-8. Exit application
-
----
-
-## 🧪 Validation & Error Handling
-
-* Input validation for:
-
-  * Maintenance status
-  * Duplicate vehicle IDs
-* Safe file loading using:
-
-  ```python
-  os.path.exists()
-  ```
+6. Save/load CSV
+7. Save/load JSON
+8. Exit
 
 ---
 
 ## 🛠️ Technologies Used
 
-* **Python 3**
+* Python 3
 * OOP (Encapsulation, Inheritance, Abstraction, Polymorphism)
-* CSV File I/O
-* Git & GitHub (branch-based UC development)
+* CSV & JSON File I/O
+* Pytest
+* Git & GitHub
 
 ---
 
 ## 🧾 Git Workflow
 
-* Each Use Case implemented in a **separate branch**
+* Each Use Case → separate Git branch
 * Merged into `main` after completion
-* Professional commit naming:
+* Commit format:
 
   ```
   UC<number>: Description
@@ -275,16 +307,15 @@ Users can:
 
 ## ✅ Current Status
 
-✔ UC1 – UC13 completed
-✔ CSV persistence working
-✔ Menu-driven system stable
-✔ Reviewer-ready
+✔ UC1 – UC16 completed
+✔ CSV & JSON persistence working
+✔ Battery analytics script added
+✔ Pytest automation implemented
+✔ Project is **reviewer & interview ready**
 
 ---
 
 ## 📌 Conclusion
 
-Eco-Ride demonstrates a **real-world fleet management solution** using Python OOP principles with clean architecture, strong data validation, and persistent storage.
-The project is designed to be **extensible**, **maintainable**, and **interview-ready**.
-
-
+Eco-Ride is a **complete, end-to-end fleet management system** showcasing Python OOP, file handling, analytics, and automated testing.
+The project is designed to be **extensible**, **maintainable**, and aligned with **real-world backend development practices**.
