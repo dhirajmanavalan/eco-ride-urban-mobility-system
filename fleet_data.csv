@@ -1,5 +1,1 @@
 vehicle_id,model,battery,status,rental_price,vehicle_type,seating_capacity/max_speed,hub
-101,Suzuki,98,available,300.0,CAR,4,Salem
-102,Tesla,89,on trip,4000.0,CAR,5,Tirupathur
-104,Hyndai,80,on trip,250.0,SCOOTER,60,Tirupathur
-103,Mahindra,40,under maintenance,300.0,SCOOTER,70,Chennai
