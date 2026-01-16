@@ -1,0 +1,40 @@
+{
+    "battery_0_60": [
+        {
+            "vehicle_id": "103",
+            "model": "Mahindra",
+            "battery": 40,
+            "status": "under maintenance",
+            "hub": "Chennai",
+            "vehicle_type": "SCOOTER"
+        }
+    ],
+    "battery_60_70": [
+        {
+            "vehicle_id": "104",
+            "model": "Hyndai",
+            "battery": 69,
+            "status": "on trip",
+            "hub": "Tirupathur",
+            "vehicle_type": "SCOOTER"
+        }
+    ],
+    "battery_70_100": [
+        {
+            "vehicle_id": "101",
+            "model": "Suzuki",
+            "battery": 98,
+            "status": "available",
+            "hub": "Salem",
+            "vehicle_type": "CAR"
+        },
+        {
+            "vehicle_id": "102",
+            "model": "Tesla",
+            "battery": 89,
+            "status": "on trip",
+            "hub": "Tirupathur",
+            "vehicle_type": "CAR"
+        }
+    ]
+}
